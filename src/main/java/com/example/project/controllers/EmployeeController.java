@@ -2,11 +2,14 @@ package com.example.project.controllers;
 
 
 import com.example.project.models.Employees;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -31,11 +34,14 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public Employees getById(@PathVariable UUID id) {
-
-        return this.employeesList.stream()
-                .filter(item -> item.getId().equals(id))
-                .findFirst().get();
+    public ResponseEntity<Employees> getById(@PathVariable UUID id) {
+            for (Employees employee : this.employeesList) {
+                if (employee.getId().equals(id)) return new ResponseEntity<>(employee, HttpStatus.OK);
+            }
+            return ResponseEntity.notFound().build();
+ //       return this.employeesList.stream()
+ //               .filter(item -> item.getId().equals(id))
+ //               .findFirst().get();
     }
 
     @PostMapping
@@ -76,4 +82,14 @@ public class EmployeeController {
         return null;
     }
 
+    @GetMapping("search")
+    public List<Employees> searchBy(@RequestParam(required = false) String name) {
+        if (name == null) {
+            return this.employeesList;
+        }
+        var filteredEmployees = this.employeesList.stream()
+                .filter(item -> item.getName().toLowerCase().contains(name.toLowerCase()))
+                .collect(Collectors.toList());
+        return filteredEmployees;
+    }
 }
