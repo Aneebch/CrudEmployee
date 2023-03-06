@@ -40,6 +40,7 @@ public class EmployeeController {
 
     @PostMapping
     public Employees create(@RequestBody Employees employee){
+        this.employeesList.add(employee);
         return employee;
     }
 }
