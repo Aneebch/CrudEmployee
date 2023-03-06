@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
@@ -32,12 +33,11 @@ public class EmployeeController {
         return this.employeesList;
     }
 
-    @GetMapping("{name}")
-    public Employees getByName(@PathVariable String name) {
-
+    @GetMapping("/{id}")
+    public Employees getById(@PathVariable UUID id) {
 
         return this.employeesList.stream()
-                .filter(item -> item.getName().equalsIgnoreCase(name))
+                .filter(item -> item.getId().equals(id))
                 .findFirst().get();
     }
 }
