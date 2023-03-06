@@ -46,12 +46,19 @@ public class EmployeeController {
 
     @DeleteMapping("{id}")
     public Employees deleteById(@PathVariable UUID id){
-        for (Employees item: this.employeesList){
+/*        for (Employees item: this.employeesList){
             if (item.getId().equals(id)) {
                 this.employeesList.remove(item);
                 return item;
             }
         };
-        return null;
+        return null;*/
+
+        var employeeToDelete = this.employeesList.stream()
+                .filter(item -> item.getId().equals(id))
+                .findFirst().get();
+        this.employeesList.remove(employeeToDelete);
+        return employeeToDelete;
     }
+
 }
