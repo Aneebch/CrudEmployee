@@ -13,6 +13,11 @@ public class Employees {
         this.name = name;
     }
 
+    public Employees() {
+        this.id = UUID.randomUUID();
+
+    }
+
     public UUID getId() {
         return id;
     }

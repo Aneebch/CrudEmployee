@@ -2,10 +2,7 @@ package com.example.project.controllers;
 
 
 import com.example.project.models.Employees;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +19,7 @@ public class EmployeeController {
     );
 
     @GetMapping("/employees")
-    public String employees() {
+    public String employee() {
         System.out.println("Employee Controller");
         return "ok";
     }
@@ -39,5 +36,10 @@ public class EmployeeController {
         return this.employeesList.stream()
                 .filter(item -> item.getId().equals(id))
                 .findFirst().get();
+    }
+
+    @PostMapping
+    public Employees create(@RequestBody Employees employee){
+        return employee;
     }
 }
