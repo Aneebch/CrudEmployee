@@ -61,4 +61,19 @@ public class EmployeeController {
         return employeeToDelete;
     }
 
+    @PutMapping("/{id}")
+    public Employees updateById(@PathVariable UUID id, @RequestBody Employees employees){
+
+
+
+        for (Employees item: this.employeesList){
+            if (item.getId().equals(id)){
+                item.setName(employees.getName());
+                return item;
+            }
+
+        }
+        return null;
+    }
+
 }
