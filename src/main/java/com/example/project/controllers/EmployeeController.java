@@ -43,4 +43,15 @@ public class EmployeeController {
         this.employeesList.add(employee);
         return employee;
     }
+
+    @DeleteMapping("{id}")
+    public Employees deleteById(@PathVariable UUID id){
+        for (Employees item: this.employeesList){
+            if (item.getId().equals(id)) {
+                this.employeesList.remove(item);
+                return item;
+            }
+        };
+        return null;
+    }
 }
