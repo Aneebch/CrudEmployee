@@ -35,13 +35,15 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Employees> getById(@PathVariable UUID id) {
-            for (Employees employee : this.employeesList) {
-                if (employee.getId().equals(id)) return new ResponseEntity<>(employee, HttpStatus.OK);
-            }
-            return ResponseEntity.notFound().build();
- //       return this.employeesList.stream()
- //               .filter(item -> item.getId().equals(id))
- //               .findFirst().get();
+ //           for (Employees employee : this.employeesList) {
+   //             if (employee.getId().equals(id)) return new ResponseEntity<>(employee, HttpStatus.OK);
+  //          }
+  //          return ResponseEntity.notFound().build();
+            var optionalEmployee = this.employeesList.stream()
+                .filter(item -> item.getId().equals(id))
+                .findFirst();
+            if (optionalEmployee.isEmpty()) return ResponseEntity.notFound().build();
+            return new ResponseEntity<>(optionalEmployee.get(), HttpStatus.OK);
     }
 
     @PostMapping
